@@ -1,0 +1,28 @@
+.btn-col {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    -ms-align-items: center;
+    align-items: center;
+}
+
+.btn-col button {
+    margin: 10px;
+    padding: 10px;
+}
+
+.newGame-btn {
+    display: block;
+    border-radius: 5px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
+}
+
+.game-space {
+    background-color: #454545;
+    margin: 0px 100px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 15px rgba(0,0,0, 0.5);
+}
