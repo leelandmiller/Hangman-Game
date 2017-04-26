@@ -22,7 +22,11 @@
 
 .game-space {
     background-color: #454545;
-    margin: 0px 100px;
+    margin: 0px 10px 10px 10px;
     border-radius: 20px;
     box-shadow: 5px 5px 15px rgba(0,0,0, 0.5);
+}
+
+.even-h2-padding {
+    margin: 10px;
 }

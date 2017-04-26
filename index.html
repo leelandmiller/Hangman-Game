@@ -33,23 +33,76 @@
             </div>
             <div class="col-md-12">
                 <h2 id="win-or-lose-message" class="text-center">
-
                 </h2>
             </div>
-            <div class="btn-col col-md-4">
-                <button onclick="game.newGame('fruits')" class="btn btn-info newGame-btn">
-                    New Game - Fruits
+
+            <div class="row">
+                <div class="btn-col col-xs-3 col-xs-offset-1">
+                    <button onclick="game.newGame('fruits', 10)" class="btn btn-success newGame-btn">
+                    Fruits <br>(Easy)
                 </button>
+                </div>
+                <div class="btn-col col-xs-4">
+                    <button onclick="game.newGame('fruits', 7)" class="btn btn-info newGame-btn">
+                    Fruits <br>(Normal)
+                </button>
+                </div>
+                <div class="btn-col col-xs-3">
+                    <button onclick="game.newGame('fruits', 5)" class="btn btn-danger newGame-btn">
+                    Fruits <br>(Hard)
+                </button>
+                </div>
             </div>
-            <div class="btn-col col-md-4">
-                <button onclick="game.newGame('gotChars')" class="btn btn-info newGame-btn">
-                    New Game - Game of Thrones Characters
+            <div class="row">
+                <div class="btn-col col-xs-3 col-xs-offset-1">
+                    <button onclick="game.newGame('gotChars', 10)" class="btn btn-success newGame-btn">
+                    GoT <br>Characters <br>(Easy)
                 </button>
+                </div>
+                <div class="btn-col col-xs-4">
+                    <button onclick="game.newGame('gotChars', 7)" class="btn btn-info newGame-btn">
+                    GoT <br>Characters <br>(Normal)
+                </button>
+                </div>
+                <div class="btn-col col-xs-3">
+                    <button onclick="game.newGame('gotChars', 5)" class="btn btn-danger newGame-btn">
+                    GoT <br>Characters <br>(Hard)
+                </button>
+                </div>
             </div>
-            <div class="btn-col col-md-4">
-                <button onclick="game.newGame('superheros')" class="btn btn-info newGame-btn">
-                    New Game - Superheros
+            <div class="row">
+                <div class="btn-col col-xs-3 col-xs-offset-1">
+                    <button onclick="game.newGame('superheros', 10)" class="btn btn-success newGame-btn">
+                    Superheros <br>(Easy)
                 </button>
+                </div>
+                <div class="btn-col col-xs-4">
+                    <button onclick="game.newGame('superheros', 7)" class="btn btn-info newGame-btn">
+                    Superheros <br>(Normal)
+                </button>
+                </div>
+                <div class="btn-col col-xs-3">
+                    <button onclick="game.newGame('superheros', 5)" class="btn btn-danger newGame-btn">
+                    Superheros <br>(Hard)
+                </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-col col-xs-3 col-xs-offset-1">
+                    <button onclick="game.newGame('animals', 10)" class="btn btn-success newGame-btn">
+                    Animals <br>(Easy)
+                </button>
+                </div>
+                <div class="btn-col col-xs-4">
+                    <button onclick="game.newGame('animals', 7)" class="btn btn-info newGame-btn">
+                    Animals <br>(Normal)
+                </button>
+                </div>
+                <div class="btn-col col-xs-3">
+                    <button onclick="game.newGame('animals', 5)" class="btn btn-danger newGame-btn">
+                    Animals <br>(Hard)
+                </button>
+                </div>
             </div>
             <div class="col-md-12">
                 <h2 class="text-center">
@@ -61,9 +114,11 @@
         </div>
         <div class="row game-space">
             <div class="col-md-12">
-                <span id="consecutive-wins">
-                    
-                </span>
+                <h2 class="text-center even-h2-padding">
+                    <span id="consecutive-wins">
+                        Consecutive Wins: 0
+                    </span>
+                </h2>
             </div>
         </div>
     </div>

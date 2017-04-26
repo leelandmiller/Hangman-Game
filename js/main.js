@@ -9,6 +9,8 @@ var game = {
     secretWord: [],
     guessesLeft: 10,
     guessedLetters: [],
+    usedWords: [],
+    consecutiveWins: 0,
 
     categories: {
         fruits: [
@@ -20,13 +22,23 @@ var game = {
         superheros: [
             'spiderman', 'hulk', 'thor', 'ironman', 'lukecage', 'blackwidow', 'daredevil', 'captainamerica', 'wolverine', 'doctorstrange', 'deadpool', 'captainamerica', 'batman', 'superman', 'wonderwoman', 'aquaman', 'flash', 'greenarrow', 'ironfist', 'captainatom', 'antman', 'greenlantern'
         ],
+        animals: [
+            'cat', 'dog', 'giraffe', 'monkey', 'gorilla', 'elephant', 'lion', 'tiger', 'bear', 'dolphin', 'whale', 'shark', 'shrimp', 'mouse', 'camel', 'llama', 'horse', 'donkey', 'chicken', 'moose', 'deer', 'wolf', 'coyote', 'rabbit', 'owl', 'hawk', 'squid', 'octopus', 'eel', 'snake', 'gecko', 'pig', 'ostrich', 'cow', 'bull', 'goat', 'sheep', 'turtle', 'tortoise', 'rooster', 'bat', 'rhinoceros', 'alligator', 'crocodile', 'hamster', 'hyena', 'hippopotamus', 'jaguar', 'jellyfish', 'manatee', 'opossum', 'otter', 'parrot', 'porcupine', 'raccoon', 'seahorse', 'sloth', 'skunk', 'spider', 'squirrel', 'walrus', 'wolverine', 'zebra', 'gazelle', 'frog', 'eagle', 'duck', 'cheetah', 'chinchilla', 'buffalo', 'beaver', 'armadillo', 'alpaca', 'aardvark'
+        ]
     },
     // new game method - called onclick
-    newGame: function (category) {
-        this.resetGame();
+    newGame: function (category, difficulty) {
+        this.resetGame(difficulty);
         var category = this.categories[category];
-        this.newWord = category[Math.floor(Math.random() * (category.length + 1))];
-
+        var rngWord = category[Math.floor(Math.random() * (category.length))];
+        var counter = 0;
+        while (this.usedWords.indexOf(rngWord) >= 0 && counter < category.length) {
+            rngWord = category[Math.floor(Math.random() * (category.length))];
+            counter++;
+        }
+        this.newWord = rngWord;
+        this.usedWords.push(this.newWord);
+        console.log(this.usedWords);
         this.generateSecretWord(this.newWord);
         this.updateSecretWordUI(this.secretWord);
         this.updateCategoryUI(category);
@@ -38,11 +50,11 @@ var game = {
         }
     },
     // resets guessedLetters and guessesLeft
-    resetGame: function () {
+    resetGame: function (difficulty) {
         // reset guessedLetters to empty arr
         this.guessedLetters = [];
         // reset guessesLeft to 10
-        this.guessesLeft = 10;
+        this.guessesLeft = difficulty;
         // reset secretWrod to empty arr
         this.secretWord = [];
         // reset innerHTML of wordElem
@@ -100,6 +112,8 @@ var game = {
             categoryUI.innerHTML = "Game of Thrones Characters";
         } else if (category === this.categories.superheros) {
             categoryUI.innerHTML = "Superheros";
+        } else if (category === this.categories.animals) {
+            categoryUI.innerHTML = "Animals";
         }
     },
     // compare secretWord to word to check if they won
@@ -107,15 +121,25 @@ var game = {
         var secretString = this.secretWord.join('');
         if (secretString === this.newWord && this.newWord !== '') {
             winLoseMsg.innerHTML = 'YOU WON!';
+            this.incrementWins();
             this.hideGuessInfo();
             this.showButtons();
         }
     },
+    incrementWins: function () {
+        this.consecutiveWins++;
+        $('#consecutive-wins').html('Consecutive Wins: ' + this.consecutiveWins);
+    },
     checkIfLost: function () {
         // DO STUFF HERE
         if (this.guessesLeft === 0) {
-            winLoseMsg.innerHTML = 'YOU LOSE. GAME OVER';
+            winLoseMsg.innerHTML = 'YOU LOSE. GAME OVER <br>';
+            winLoseMsg.innerHTML += 'The Word: ' + this.newWord;
             this.showButtons();
+            // reset usedWords arr
+            this.usedWords = [];
+            this.consecutiveWins = 0;
+            $('#consecutive-wins').html('Consecutive Wins: ' + this.consecutiveWins);
         }
     },
     hideButtons: function () {
