@@ -3,6 +3,7 @@ var guessedLettersElem = document.getElementById('letters-guessed');
 var guessesLeftElem = document.getElementById('guesses-left');
 var winLoseMsg = document.getElementById('win-or-lose-message');
 var categoryUI = document.getElementById('category');
+var ALPH_LENGTH = 26;
 
 var game = {
     newWord: '',
@@ -11,6 +12,8 @@ var game = {
     guessedLetters: [],
     usedWords: [],
     consecutiveWins: 0,
+    gameCounter:0,
+    keyboard: [],
 
     categories: {
         fruits: [
@@ -29,6 +32,14 @@ var game = {
     // new game method - called onclick
     newGame: function (category, difficulty) {
         this.resetGame(difficulty);
+        if (this.gameCounter === 0) {
+            this.drawKeyboard();
+        } else if (this.gameCounter > 0) {
+            $('.letter-button').css({
+                'background-color': '#454545'
+            })
+            $('#keyboard').toggle('slow');
+        } 
         var category = this.categories[category];
         var rngWord = category[Math.floor(Math.random() * (category.length))];
         var counter = 0;
@@ -38,7 +49,7 @@ var game = {
         }
         this.newWord = rngWord;
         this.usedWords.push(this.newWord);
-        console.log(this.usedWords);
+        // console.log(this.usedWords);
         this.generateSecretWord(this.newWord);
         this.updateSecretWordUI(this.secretWord);
         this.updateCategoryUI(category);
@@ -72,18 +83,28 @@ var game = {
             var checkIndex = 0;
             // this will set checkIndex to -1 if guess is not in word
             checkIndex = word.indexOf(guess);
+            // if guess is not in word AND
+            // if guess is not in guessedLetters, decrement guessesLeft
+            // push guess to guessedLetters AND update UI
             if (checkIndex === -1 && this.guessedLetters.indexOf(guess) === -1) {
                 this.guessesLeft--;
                 this.guessedLetters.push(guess);
                 this.updateGuessesUI();
+                
+                return false;
             }
+            // convert secret arr to string
             secret = secret.join('');
             while (checkIndex >= 0) {
+                // update secret arr
                 secret = this.updateSecretWord(checkIndex, guess, secret);
+                // move to next index of word, reassign checkIndex
                 checkIndex = word.indexOf(guess, checkIndex + 1);
             }
             // empty secretWord arr to push updated arr (secret) into it afterwards
             this.secretWord = [];
+            var secretArr = secret.split('');
+
             for (var char of secret) {
                 this.secretWord.push(char);
             }
@@ -94,6 +115,8 @@ var game = {
         this.checkIfWon();
         //TODO
         this.checkIfLost();
+        
+        return true;
     },
     // if a correct letter is guessed, updates the secret word (changes corresponding dashes to letters)
     updateSecretWord: function (pos, char, originWord) {
@@ -124,6 +147,8 @@ var game = {
             this.incrementWins();
             this.hideGuessInfo();
             this.showButtons();
+            this.gameCounter++;
+            $('#keyboard').toggle('slow');
         }
     },
     incrementWins: function () {
@@ -140,6 +165,9 @@ var game = {
             this.usedWords = [];
             this.consecutiveWins = 0;
             $('#consecutive-wins').html('Consecutive Wins: ' + this.consecutiveWins);
+            
+            this.gameCounter++;
+            $('#keyboard').toggle('slow');
         }
     },
     hideButtons: function () {
@@ -170,6 +198,34 @@ var game = {
         this.guessedLetters.map(function (letter) {
             guessedLettersElem.innerHTML += letter + ' ';
         });
+    },
+    drawKeyboard: function () {
+        for (var i = 0; i < ALPH_LENGTH; i++) {
+            this.keyboard.push(String.fromCharCode(i + 97));
+        }
+        
+        $.each(this.keyboard, function(i, key) {
+            var newKey = $('<button>').addClass('btn letter-button').attr('data-letter', key).html(key);
+            $('#keyboard').append(newKey);
+        });
+        
+        this.keyClick();
+    },
+    keyClick: function () {
+        $('.letter-button').on('click', function () { 
+            var guess = $(this).attr('data-letter');
+            var right = game.guessLetter(guess, game.secretWord, game.newWord);
+            if (right) {
+                $(this).css({
+                    'background-color': '#00897b'
+                });
+            } else if (!right) {
+                $(this).css({
+                    'background-color': '#e53935'
+                });
+            }
+            
+        });
     }
 }
 
@@ -177,3 +233,5 @@ document.onkeyup = function (event) {
     var key = event.key.toLowerCase();
     game.guessLetter(key, game.secretWord, game.newWord);
 }
+
+

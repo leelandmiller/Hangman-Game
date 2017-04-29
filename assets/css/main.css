@@ -21,12 +21,35 @@
 }
 
 .game-space {
-    background-color: #454545;
+/*    background-color: #454545;*/
     margin: 0px 10px 10px 10px;
-    border-radius: 20px;
-    box-shadow: 5px 5px 15px rgba(0,0,0, 0.5);
+/*    border-radius: 20px;*/
+/*    box-shadow: 5px 5px 15px rgba(0,0,0, 0.5);*/
 }
 
 .even-h2-padding {
     margin: 10px;
+}
+.keyboard-container {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#keyboard {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    max-width: 500px;
+    min-width: 400px;
+}
+.letter-button {
+    margin: 5px;
+    background-color: #454545;
+}
+.letter-button:hover {
+    background-color: #909090;
 }
